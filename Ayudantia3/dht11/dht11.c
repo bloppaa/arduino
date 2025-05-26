@@ -1,24 +1,19 @@
-#include <dht11.h>
-#define DHT11PIN 4
+#include "DHT.h"
 
-dht11 DHT11;
+#define DHTPIN 2
+#define DHTTYPE DHT11
 
-void  setup()
-{
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
   Serial.begin(9600);
+  dht.begin();
 }
 
-void loop()
-{
-  Serial.println();
-
-  int chk = DHT11.read(DHT11PIN);
-
-  Serial.print("Humidity (%): ");
-  Serial.println((float)DHT11.humidity, 2);
-
-  Serial.print("Temperature  (C): ");
-  Serial.println((float)DHT11.temperature, 2);
-
+void loop() {
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+  Serial.print("Humedad: " + String(h) + String("%"));
+  Serial.println("\tTemperatura: " + String(t) + String(" °C"));
   delay(2000);
 }
